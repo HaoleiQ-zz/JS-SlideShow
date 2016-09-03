@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>学习</title>
+    <!--页内样式表-->
+    <link rel="stylesheet" href="css/base1.css" type="text/css"/>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .fdiv {
+            position: relative;
+            width: 310px;
+            height: 265px;
+            border: 0px solid seagreen;
+            margin-top: 100px;
+            overflow: hidden;
+        }
+
+        #topdiv {
+            position: absolute;
+            width: 3000px;
+            height: 220px;
+            left: 0px;
+        }
+
+        .topdiv {
+            position: absolute;
+            width: 3000px;
+            height: 220px;
+            left: 0px;
+            overflow: hidden;
+            float: left;
+        }
+
+        #topdiv div {
+            float: left;
+        }
+
+        #bottom {
+            width: 310px;
+            height: 20px;
+            margin-left: 50px;
+            overflow: visible;
+
+        }
+
+        #left {
+            position: absolute;
+            top: 50%;
+            left: 2px;
+            margin-top: -35px;
+            background: url(img/icon.png) no-repeat 6px top;
+            width: 30px;
+            height: 35px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        #right {
+            position: absolute;
+            top: 50%;
+            margin-top: -35px;
+            background: url(img/icon.png) no-repeat 6px top;
+            width: 30px;
+            height: 35px;
+            opacity: 0.8;
+            cursor: pointer;
+            background-position: -6px -44px;
+            right: 0px;
+        }
+
+        .diandian {
+            width: 24px;
+            height: 20px;
+            position: relative;
+            background: url(img/icon.png) no-repeat 0px -762px;
+
+        }
+
+        .fuckdian {
+            width: 24px;
+            position: relative;
+            height: 20px;
+            background: url(img/icon.png) no-repeat -24px -762px;
+
+        }
+
+        li {
+            float: left;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        ul {
+            margin-bottom: 220px;
+            margin-left: -2px;
+        }
+
+        .slider-main-img {
+            width: 310px;
+            height: 220px;
+        }
+    </style>
+</head>
+<body>
+<!--网页主体开始-->
+<span id="xianshi"
+      style="font-size: xx-large;color: red; text-align: center;margin-left: 555px;margin-top: 255px;"></span>
+<div class="fdiv" id="fdiv">
+    <div id="topdiv" class="topdiv" style="left: 0px;">
+
+        <div class="slider-main-img"><a href="#"><img src="img/1.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/2.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/3.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/4.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/5.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/6.jpg" alt=""/></a></div>
+        <div class="slider-main-img"><a href="#"><img src="img/1.jpg" alt=""/></a></div>
+
+
+    </div>
+
+    <div id="bottom">
+        <span id="left"></span>
+        <span id="right"></span>
+        <ul id="ul"></ul>
+    </div>
+    <!--网页主体结束-->
+</div>
+<!--外部js-->
+<script src="js/base.js"></script>
+<!--内部js-->
+<script>
+    var box = getnode("#fdiv");
+    var topdiv = getnode("#topdiv");
+    var bottom = getnode("#bottom");
+    var slider2 = getnode("#slider2");
+    var left = getnode("#left");
+    var right = getnode("#right");
+    var tupian = getnode("#topdiv").children;
+    var bigbox_width = parseInt(window.getComputedStyle(box, null)["width"]);
+    var ul = getnode("#ul");
+    var li = getnode("li");
+    var xianshi = getnode("#xianshi");
+    var imgsrc = getnode("img");
+    var x = 0, y = 0, z = 1, z2 = 0;
+    var that;
+    var nimabi;
+    var tupianshuliang = tupian.length - 1;
+    var autoplay;
+    var fuckyoumother = 0;
+    var autoplay_bool = true;
+    for (var i = 0; i < tupian.length - 1; i++) {
+
+        var temp = document.createElement("li");
+        temp.className = i == 0 ? "diandian" : "fuckdian";
+        ul.appendChild(temp);
+    }
+
+    left.onclick = function () {
+        var topdiv_left = parseInt(getStyle(topdiv, "left"));
+        if (topdiv_left <= -bigbox_width * tupianshuliang) {
+            topdiv.style.left = 0 + "px";
+            donghua(topdiv, {left: -bigbox_width});
+        }
+        if (topdiv_left > -bigbox_width * tupianshuliang) {
+            donghua(topdiv, {left: -bigbox_width + topdiv.offsetLeft});
+        }
+    }
+    right.onclick = function () {
+        var topdiv_left = parseInt(getStyle(topdiv, "left"));
+
+        if (topdiv_left > -bigbox_width * tupianshuliang && topdiv_left < 0) {
+//            topdiv.style.left=
+            donghua(topdiv, {left: bigbox_width + topdiv_left});
+        }
+        else {
+            topdiv.style.left = -(tupian.length - 1) * bigbox_width + "px";
+            donghua(topdiv, {left: -(tupian.length - 2) * bigbox_width});
+        }
+    }
+
+    for (var i = 0; i < li.length; i++) {
+        li[i].index = i;
+        li[i].onmouseover = function () {
+            var topdiv_left = parseInt(getStyle(topdiv, "left"));
+            var bool = this.index * bigbox_width > -topdiv_left;
+            if (bool) {
+//                topdiv.style.left = -this.index * bigbox_width + bigbox_width + "px";
+                donghua(topdiv, {left: -this.index * bigbox_width});
+            }
+            else {
+                topdiv.style.left = -this.index * bigbox_width - bigbox_width + "px";
+                donghua(topdiv, {left: -this.index * bigbox_width});
+            }
+            document.title = this.index;
+        }
+    }
+
+    autoplay = setInterval(function () {
+        var topdiv_left = parseInt(getStyle(topdiv, "left"));
+
+        donghua(topdiv, {left: -bigbox_width + topdiv_left});
+    }, 1600);
+
+    document.title = nimabi;
+    setInterval(function () {
+        for (var i = 0; i < li.length; i++
+        ) {
+            li[i].className = "fuckdian";
+        }
+        var topdiv_left = parseInt(getStyle(topdiv, "left"));
+        topdiv_left = Math.ceil(topdiv_left);
+        var nimabi = -topdiv_left / bigbox_width + 1;
+        nimabi = Math.ceil(nimabi);
+
+        if (nimabi == 6) {
+            li[5].className = "diandian";
+        }
+        else {
+            li[nimabi - 1].className = "diandian";
+        }
+        document.title = nimabi;
+    }, 1);
+</script>
+
+</body>
+</html>

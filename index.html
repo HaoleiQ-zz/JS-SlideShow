@@ -203,9 +203,17 @@
     }
 
     autoplay = setInterval(function () {
-        var topdiv_left = parseInt(getStyle(topdiv, "left"));
 
-        donghua(topdiv, {left: -bigbox_width + topdiv_left});
+        var topdiv_left = parseInt(getStyle(topdiv, "left"));
+        if (topdiv_left <= -bigbox_width * tupianshuliang) {
+            topdiv.style.left = 0 + "px";
+            donghua(topdiv, {left: -bigbox_width});
+        }
+        if (topdiv_left > -bigbox_width * tupianshuliang) {
+            donghua(topdiv, {left: -bigbox_width + topdiv.offsetLeft});
+        }
+
+
     }, 1600);
 
     document.title = nimabi;

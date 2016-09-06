@@ -16,7 +16,7 @@ window.onload
                     donghua_step = (json[attr] - current) / 10;
                     donghua_step = donghua_step > 0 ? Math.ceil(donghua_step) : Math.floor(donghua_step);
                     obj.style[attr] = current + donghua_step + "px";
-                    console.log(attr);
+
                     if (current != json[attr]) {
                         flag_tool = false;
                     }
@@ -31,7 +31,7 @@ window.onload
     }
 
     /**
-     * Created by andy on 2015/11/23.
+     *
      */
 // 多个属性运动框架  添加回调函数
     function animate(obj, json, fn) {  // 给谁    json
@@ -45,12 +45,12 @@ window.onload
                 var current = 0;
                 if (attr == "opacity") {
                     current = Math.round(parseInt(getStyle(obj, attr) * 100)) || 0;
-                    console.log(current);
+
                 }
                 else {
                     current = parseInt(getStyle(obj, attr)); // 数值
                 }
-                // console.log(current);
+
                 // 目标位置就是  属性值
                 var step = ( json[attr] - current) / 10;  // 步长  用目标位置 - 现在的位置 / 10
                 step = step > 0 ? Math.ceil(step) : Math.floor(step);
@@ -83,7 +83,7 @@ window.onload
             {
                 clearInterval(obj.timer);
                 //alert("ok了");
-                if (fn)   // 很简单   当定时器停止了。 动画就结束了  如果有回调，就应该执行回调
+                if (fn)   //    当定时器停止了。 动画就结束了  如果有回调，就应该执行回调
                 {
                     fn(); // 函数名 +  （）  调用函数  执行函数
                 }
